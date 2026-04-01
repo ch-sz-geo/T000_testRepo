@@ -16,6 +16,13 @@ jobs:
         with:
           fetch-depth: 0  # Important: fetches full history, not just latest commit
 
+      - name: Generate GitHub App Token
+        id: generate-token
+        uses: actions/create-github-app-token@v1
+        with:
+          app-id: ${{ secrets.APP_ID }}
+          private-key: ${{ secrets.APP_PRIVATE_KEY }}
+          
       - name: Print all changed files in models/
         id: changes
         run: |
@@ -70,6 +77,8 @@ jobs:
           git log --oneline $COMMITS
 
       - name: Trigger the IliModelRepo action
+        env:
+          GH_TOKEN: ${{ steps.generate-token.outputs.token }}
         run: |
           payload=$(jq -n \
             --arg repo "${{ github.repository }}" \
