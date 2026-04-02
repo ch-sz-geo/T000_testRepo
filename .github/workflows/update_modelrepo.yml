@@ -23,6 +23,7 @@ jobs:
           app-id: ${{ secrets.APP_ID }}
           private-key: ${{ secrets.APP_PRIVATE_KEY }}
           owner: ${{ github.repository_owner }}  # scopes token to whole org
+          repositories: "Test_models"
           
       - name: Print all changed files in models/
         id: changes
