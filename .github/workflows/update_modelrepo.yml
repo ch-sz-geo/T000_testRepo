@@ -25,6 +25,13 @@ jobs:
           owner: ${{ github.repository_owner }}  # scopes token to whole org
           repositories: "Test_models"
           
+      - name: Debug token scope
+        env:
+          GH_TOKEN: ${{ steps.generate-token.outputs.token }}
+        run: |
+          # Lists repos the token can actually access
+          gh api /installation/repositories --jq '.repositories[].full_name'
+          
       - name: Print all changed files in models/
         id: changes
         run: |
